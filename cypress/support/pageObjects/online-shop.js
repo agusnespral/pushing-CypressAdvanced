@@ -5,6 +5,7 @@ class onlineShop {
         userField: ()=> cy.get('[data-cy="user"]'),
         passwordField: ()=> cy.get('[data-cy="pass"]'),
         submitForm: ()=> cy.get('[data-cy="submitForm"]'),
+        title:()=> cy.get('[class="chakra-heading css-y5314g"]'),
         onlineShop: ()=> cy.get('[data-cy="onlineshoplink"]'),
         addProduct: ()=> cy.get('[data-cy="add-product"]'),
         productNameField: ()=> cy.get('[data-cy="productName"]'),
@@ -12,10 +13,15 @@ class onlineShop {
         productImageUrlField: ()=> cy.get('[data-cy="productCard"]'),
         idField: ()=> cy.get('[data-cy="productID"]'),
         createProduct: ()=> cy.get('[data-cy="createProduct"]'),
+        closeCreatePopup: ()=> cy.get('[data-cy="closeModal"]'),
+        searchType: ()=> cy.get('[data-cy="search-type"]'),
+        productName: ()=> cy.get('[data-cy="name"]'),
         searchField: ()=> cy.get('[data-cy="search-bar"]'),
-        deleteProduct: ()=> cy.get('[`data-cy="delete-${productId}`]')
-
-    }  
+        trashIcon: Id => cy.get(`[data-cy="delete-${Id}"]`),
+        deleteProductConfirm: ()=> cy.get('#saveEdit'),
+        closeButtonDeleteConfirm: ()=> cy.get('[data-cy="closeModal"]'),
+        productListPage: ()=> cy.get('[class^="chakra-form-control"]'),
+      }  
     
     iniciarSesion() {
         this.selectors.iniciaSesion().dblclick();
@@ -61,13 +67,35 @@ class onlineShop {
         this.selectors.createProduct().click();
     }
 
-    typeSearch (productName) {
-        this.selectors.searchField().type(`${productName}{enter}`);
+    clickOnCloseCreatePopup() {
+        this.selectors.closeCreatePopup().click();
     }
 
-    clickOnDeleteProduct () {
-        this.selectors.deleteProduct();
+    clickSearchType(val) {
+        this.selectors.searchType().select(val)
     }
+
+    typeSearch(productId) {
+        this.selectors.searchField().type(`${productId}{enter}`);
+    }
+
+    clickOnTrashIcon(Id) {
+        this.selectors.trashIcon(Id).click();
+    }
+
+    clickOnConfirmDelete() {
+        this.selectors.deleteProductConfirm().click();
+    }
+
+    clickOnCloseDeletePopup() {
+        this.selectors.closeButtonDeleteConfirm().click();
+    }
+
+    searchEnter() {
+        this.selectors.searchField().type('{enter}');
+    }
+
+     
 
 
 }
