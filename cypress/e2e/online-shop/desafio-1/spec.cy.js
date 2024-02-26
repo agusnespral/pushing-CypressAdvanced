@@ -12,7 +12,7 @@ describe(`${scenarioName} - ${module} `, () => {
         cy.visit("/");
 
         cy.fixture("online-shop/desafio-1/fixture").then((data) => {   //fixture hardcodeado
-            
+
             onlineShopPage.iniciarSesion();
             onlineShopPage.completeUserName(data.userName);
             onlineShopPage.completePassword(data.password);
@@ -30,7 +30,7 @@ describe(`${scenarioName} - ${module} `, () => {
             onlineShopPage.clickOnCloseCreatePopup();
             onlineShopPage.clickSearchType(1);
             onlineShopPage.typeSearch(data.productId);
-            
+
             onlineShopPage.selectors.productName().should("contain", data.productName);
 
             onlineShopPage.clickOnTrashIcon(data.productId);
@@ -42,11 +42,5 @@ describe(`${scenarioName} - ${module} `, () => {
 
         });
 
-
-
-
-        // cy.log(directorioName)
-        // cy.log('Verificar que exista, si existe eliminarlo');
-        // cy.log(`Crear un producto numero ${testCaseId}`)
     });
 });
