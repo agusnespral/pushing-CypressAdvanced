@@ -1,4 +1,4 @@
-name: 'Automated Cypress Tests at 12:10'
+name: 'Automated Cypress Test at 12:10'
 on:
   schedule:
     - cron: '10 12 * * *'
