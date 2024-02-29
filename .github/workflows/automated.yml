@@ -1,7 +1,7 @@
 name: 'Automated Cypress Test at 12:10'
 on:
   schedule:
-    - cron: '25 12 * * *'
+    - cron: '26 12 * * *'
   workflow_dispatch:
 
 jobs:
