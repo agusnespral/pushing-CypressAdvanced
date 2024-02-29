@@ -1,4 +1,4 @@
-name: 'Manual'
+name: 'Automated 18hs'
 on:
   workflow_dispatch:
     inputs:
