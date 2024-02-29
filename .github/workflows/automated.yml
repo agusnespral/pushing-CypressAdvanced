@@ -1,25 +1,20 @@
-name: 'Automated 18hs'
+name: 'Automated Cypress Tests at 18:00'
 on:
-  workflow_dispatch:
-    inputs:
-      module:
-        description: 'module folder'
-        default: "**"
-        required: true
-      scenario:
-        description: 'scenario to execute'
-        default: "**"
-        required: true
-schedule:
+  schedule:
     - cron: '0 18 * * *'
+
 jobs:
   run-cypress:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v3
+      
+      - name: Install Dependencies
+        run: npm install
+      
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          command: npx cypress run --spec cypress/e2e/home/complementaria-2/spec.cy.js --browser chrome
+          command: npx cypress run --spec cypress/e2e/${{ inputs.module }}/spec.cy.js --browser chrome
 
