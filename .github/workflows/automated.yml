@@ -1,8 +1,7 @@
-name: 'Automated Cypress Test at 12:10'
+name: 'Automated Cypress Test at 17:40'
 on:
   schedule:
-    - cron: '45 12 * * *'
-  workflow_dispatch:
+    - cron: '40 5 * * *'
 
 jobs:
   run-cypress:
