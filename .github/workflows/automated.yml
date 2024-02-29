@@ -17,5 +17,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          command: npx cypress run --spec cypress/e2e/online-shop/desafio-1/spec.cy.js --browser chrome
+          command: npx cypress run --spec cypress/e2e/home/complementaria-2/spec.cy.js --browser chrome
+
+
 
