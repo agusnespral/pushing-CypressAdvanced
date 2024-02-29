@@ -1,7 +1,7 @@
 name: 'Automated Cypress Test at 12:10'
 on:
   schedule:
-    - cron: '10 12 * * *'
+    - cron: '12 12 * * *'
 
 jobs:
   run-cypress:
