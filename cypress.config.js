@@ -7,8 +7,13 @@ module.exports = defineConfig({
       // implement node event listeners here
     specPattern: "cypress/e2e/**/*.js"
     },
-  baseUrl: "https://pushing-it.vercel.app",
+  
   fixturesFolder: "cypress/e2e/",
-  defaultCommandTimeout: 5000
+  defaultCommandTimeout: 5000,
+  env: {
+    apiUrl: "https://pushing-it.onrender.com",
+    baseUrl: "https://pushing-it.vercel.app",
+    token: ''
+  }
   },
 });
