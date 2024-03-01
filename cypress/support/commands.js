@@ -24,9 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-const { command } = require("commander");
-
-
 Cypress.Commands.add("login", (username, password) => {
       cy.request({
         method: "POST",
@@ -47,7 +44,59 @@ Cypress.Commands.add("login", (username, password) => {
     
 });
 
-Cypress.Commands.add("getByDataCy", (dataCy) => {
-    cy.log("hola");
+Cypress.Commands.add('getProductByName', (name) => {
+    cy.request({
+        method: 'GET',
+        url: `${Cypress.env().apiUrl}/api/products?name=${name}`,
+        headers: { Authorization: `Bearer ${Cypress.env().token}` },
+    }).as("response");
+});
+
+Cypress.Commands.add('getProductById', (id) => {
+    cy.request({
+        method: 'GET',
+        url: `${Cypress.env().apiUrl}/api/products?id=${id}`,
+        headers: { Authorization: `Bearer ${Cypress.env().token}` },
+    }).as("response");
+});
+
+Cypress.Commands.add('deleteProductById', function () {
+    cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env().apiUrl}/api/product/${this.response.body.products.docs[0]._id}`,
+        headers: { Authorization: `Bearer ${Cypress.env().token}` },
+    });
+});
+
+Cypress.Commands.add('createProduct', function(){   //parametrizar
+    cy.request({
+        method: 'POST',
+        url: `${Cypress.env().apiUrl}/api/create-product`,
+        headers: { Authorization: `Bearer ${Cypress.env().token}` },
+        body: {
+            name: "media", price: 1, img: "2", id: 987
+        }
+    });
 })
+
+// Cypress.Commands.add('createProduct', (productName, productPrice, productCard, productID) => {
+//     cy.getByDataCy("add-product").click();
+//     cy.getByDataCy("productName").type(productName);
+//     cy.getByDataCy("productPrice").type(productPrice);
+//     cy.getByDataCy("productCard").type(productCard);
+//     cy.getByDataCy("productID").type(productID);
+//     cy.getByDataCy("createProduct").click();
+// });
+
+Cypress.Commands.add('clickOnlineShop', () => {
+    cy.getByDataCy("onlineshoplink").click();
+});
+
+Cypress.Commands.add("getByDataCy", (dataCy) => {
+    cy.get(`[data-cy=${dataCy}]`)
+});
+
+
+
+
 

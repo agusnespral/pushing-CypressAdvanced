@@ -18,21 +18,23 @@ describe(`${scenarioName} - ${module} `, () => {
     it(`${module}`, () => {
 
         cy.fixture('online-shop/desafio-2/fixture').then((data) => {
-            cy.request({
-                method: 'GET',
-                url: `${Cypress.env().apiUrl}/api/products?name=${data.productName}`,
-                headers: { Authorization: `Bearer ${Cypress.env().token}` },
-            }).as("response");
+            cy.getProductByName(data.productName)         
             
 
             cy.get('@response').then(function () {
-                cy.log(this.response)
-                cy.request({
-                    method: 'DELETE',
-                    url: `${Cypress.env().apiUrl}/api/product/${this.response.body.products.docs[0]._id}`,
-                    headers: { Authorization: `Bearer ${Cypress.env().token}` },
-                });
+                const amountObjects = this.response.body.products.docs.length;
+                cy.log(`Hay ${amountObjects} productos para eliminar`);
+                cy.log(this.response);
+
+                if (amountObjects > 0) {
+                    cy.deleteProductById();    
+                }
+                
             })
+
+            cy.clickOnlineShop();
+            cy.createProduct(data.productName, data.productPrice, data.productCard, data.productId);
+            //cy.getProductById(data.productId);
             
         })
 
