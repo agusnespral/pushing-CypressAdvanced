@@ -2,8 +2,11 @@
     "username": "pushingIt",
     "password": "123456!",
     "productName": "cinturon",
+    "productEditName": "producto editado",
     "productPrice":"15",
+    "productEditPrice":"18",
     "productCard":"https://megasports.vteximg.com.br/arquivos/ids/211971-1000-1000/01701812001_0.jpg?v=637933105409600000",
-    "productId":"123"
+    "productEditCard":"https://www.google.com/imgres?imgurl=https%3A%2F%2Fhttp2.mlstatic.com%2FD_NQ_NP_693820-MLA31686263889_082019-O.webp&tbnid=nnHs6dP_nR09eM&vet=12ahUKEwix2c7R1tWEAxUNULgEHS02C64QMygEegQIARB7..i&imgrefurl=https%3A%2F%2Fwww.qualityimportusa.com.ar%2FMLA-805745676-corbatas-finitas-vestir-hombre-importadas-simon-de-la-costa-_JM&docid=rL-cpU5mvyrAVM&w=241&h=500&q=corbata&ved=2ahUKEwix2c7R1tWEAxUNULgEHS02C64QMygEegQIARB7", 
+    "productId": 10
 
 }

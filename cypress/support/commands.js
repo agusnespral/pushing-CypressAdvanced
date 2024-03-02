@@ -39,8 +39,7 @@ Cypress.Commands.add("login", (username, password) => {
 
         //Cypress.env('token', response.body.token) -- ambas formas sirven
         Cypress.env().token = response.body.token 
-        cy.log(Cypress.env().token)
-    });
+     });
     
 });
 
@@ -57,7 +56,7 @@ Cypress.Commands.add('getProductById', (id) => {
         method: 'GET',
         url: `${Cypress.env().apiUrl}/api/products?id=${id}`,
         headers: { Authorization: `Bearer ${Cypress.env().token}` },
-    }).as("response");
+    }).as("responseId")
 });
 
 Cypress.Commands.add('deleteProductById', function () {
@@ -68,16 +67,27 @@ Cypress.Commands.add('deleteProductById', function () {
     });
 });
 
-Cypress.Commands.add('createProduct', function(){   //parametrizar
+Cypress.Commands.add('createProduct', function(name, price, img, id){   //parametrizar
     cy.request({
         method: 'POST',
         url: `${Cypress.env().apiUrl}/api/create-product`,
         headers: { Authorization: `Bearer ${Cypress.env().token}` },
         body: {
-            name: "media", price: 1, img: "2", id: 987
+            name: name, price: price, img: img, id: id
         }
-    });
+    }).as('responseCreateProduct')
 })
+
+Cypress.Commands.add('editProduct', function (name, price, img) {
+    cy.request({
+        method: 'PUT',
+        url: `${Cypress.env().apiUrl}/api/product/${this.responseCreateProduct.body.product._id}`,
+        headers: { Authorization: `Bearer ${Cypress.env().token}` },
+        body: {
+            name: name, price: price, img: img
+        }
+    }).as('responseEditProduct')
+});
 
 // Cypress.Commands.add('createProduct', (productName, productPrice, productCard, productID) => {
 //     cy.getByDataCy("add-product").click();
@@ -94,6 +104,14 @@ Cypress.Commands.add('clickOnlineShop', () => {
 
 Cypress.Commands.add("getByDataCy", (dataCy) => {
     cy.get(`[data-cy=${dataCy}]`)
+});
+
+Cypress.Commands.add('searchProductById', function () {
+    //cy.getByDataCy('onlineshoplink').click()
+    cy.get('@responseCreateProduct').then(response => {
+    cy.getByDataCy('search-type').select(1)
+    cy.getByDataCy('search-bar').type(`${response.body.product.id}{enter}`)
+})
 });
 
 
