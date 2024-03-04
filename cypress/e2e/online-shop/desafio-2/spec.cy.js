@@ -39,12 +39,15 @@ describe(`${scenarioName} - ${module} `, () => {
             );
 
             //Front End
-            cy.searchProductById().should("be.visible");
-            cy.wait(2000);
-            
+            cy.searchProductById().should("be.visible")
+                        
             //Aserttions
+            //la pag luego de hacer la busqueda muestra por 2 segundos todos los productos y luego muestra solo
+            //el que buscaste, por lo cual si solo lo buscas por datacy=name te selecciona el incorrecto
+            //haciendo intercept + wait pasa lo mismo. 
+            //para evitar el wait use el contains y me movi con el siblings a price 
             cy.get("@responseEditProduct").then((response) => {
-                cy.getByDataCy('price')
+                cy.getByDataCy('name').contains(`${data.productEditName}`).siblings('#price')
                     .invoke("text")
                     .then((price) => {
                         cy.log(price);
