@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("login", (username, password) => {
-      cy.request({
+    cy.request({
         method: "POST",
         url: `${Cypress.env().apiUrl}/api/login`,
         body: {
@@ -38,10 +38,28 @@ Cypress.Commands.add("login", (username, password) => {
         window.localStorage.setItem("password", response.body.user.password);
 
         //Cypress.env('token', response.body.token) -- ambas formas sirven
-        Cypress.env().token = response.body.token 
-     });
-    
+        Cypress.env().token = response.body.token
+    });
+
 });
+
+Cypress.Commands.add("getAndDeleteProductById", (productId) => {
+    cy.request({
+        method: 'GET',
+        url: `${Cypress.env().apiUrl}/api/products?id=${productId}`,
+        headers: {
+            'Authorization': `Bearer ${Cypress.env().token}`
+        }
+        //el each hace que itere pero si no existe no pasa nada, no itera y listo. te evita usar un if
+    }).its('body.products.docs').each(productResponse => {
+        cy.request({
+            method: 'DELETE',
+            failOnStatusCode: false,
+            url: `${Cypress.env().apiUrl}/api/product/${productResponse._id}`,
+            headers: { 'Authorization': `Bearer ${Cypress.env().token}` },
+        });
+    });
+})
 
 Cypress.Commands.add('getProductByName', (name) => {
     cy.request({
@@ -67,7 +85,7 @@ Cypress.Commands.add('deleteProductById', function () {
     });
 });
 
-Cypress.Commands.add('createProduct', function(name, price, img, id){   //parametrizar
+Cypress.Commands.add('createProduct', function (name, price, img, id) {   //parametrizar
     cy.request({
         method: 'POST',
         url: `${Cypress.env().apiUrl}/api/create-product`,
@@ -109,10 +127,32 @@ Cypress.Commands.add("getByDataCy", (dataCy) => {
 Cypress.Commands.add('searchProductById', function () {
     //cy.getByDataCy('onlineshoplink').click()
     cy.get('@responseCreateProduct').then(response => {
-    cy.getByDataCy('search-type').select(1)
-    cy.getByDataCy('search-bar').type(`${response.body.product.id}{enter}`)
-})
+        cy.getByDataCy('search-type').select(1)
+        cy.getByDataCy('search-bar').type(`${response.body.product.id}{enter}`)
+    });
 });
+
+
+Cypress.Commands.add("addProductToCartById", (productId, ammount) => {
+
+    cy.contains("ID").parent().select(1); //no es el mejor, solo probando selectores
+    cy.get('#search-bar').clear().type(productId).type('{enter}');
+    for (let i = 0; i < ammount; i++) {
+        cy.get(`[data-cy="add-to-cart-${productId}"]`).click();
+        cy.get('[data-cy="closeModal"]').click();
+    }
+});
+
+Cypress.Commands.add('buyProductfromPLP', (firstName, lastName, cardNumber) => {
+    cy.get('button').contains('Go to shopping cart').click();
+    cy.get('button').contains('Go to Checkout').click();
+    cy.get('[data-cy="firstName"]').type(firstName);
+    cy.get('[data-cy="lastName"]').type(lastName);
+    cy.get('[data-cy="cardNumber"]').type(cardNumber);
+    cy.get('[data-cy="purchase"]').click();
+    cy.get('[data-cy="thankYou"]').click();
+});
+
 
 
 

@@ -21,7 +21,7 @@ describe(`${scenarioName} - ${module} `, () => {
                 const amountObjects = this.response.body.products.docs.length;
                 if (amountObjects > 0) {
                     cy.deleteProductById();
-                }
+               }
             });
 
             cy.clickOnlineShop();
