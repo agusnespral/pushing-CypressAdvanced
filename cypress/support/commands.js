@@ -153,8 +153,19 @@ Cypress.Commands.add('buyProductfromPLP', (firstName, lastName, cardNumber) => {
     cy.get('[data-cy="thankYou"]').click();
 });
 
+Cypress.Commands.add('validatePurchase', (product) => {
+    cy.get('.css-ud2986').within(() => {
 
+        let index = 0;
+        Cypress._.forEach(product, (value) => {
+            if (index == 3) {
+                index++
+            } else {
 
-
-
-
+            cy.get('p').eq(index).should('include.text', value)
+            index++
+        }
+        }
+        )
+    })
+})
