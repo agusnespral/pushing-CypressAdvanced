@@ -17,8 +17,9 @@
   },
   "homepage": "https://github.com/agusnespral/pushing-CypressAdvanced#readme",
   "devDependencies": {
-    "cypress": "^13.7.0",
-    "eslint-plugin-cypress": "^2.15.1"
+    "cypress": "^13.7.1",
+    "eslint-plugin-cypress": "^2.15.1",
+    "pg": "^8.11.3"
   },
   "dependencies": {
     "acorn": "^8.11.3",
@@ -191,7 +192,6 @@
     "path-key": "^3.1.1",
     "pend": "^1.2.0",
     "performance-now": "^2.1.0",
-    "pg": "^8.11.3",
     "pify": "^2.3.0",
     "prelude-ls": "^1.2.1",
     "pretty-bytes": "^5.6.0",

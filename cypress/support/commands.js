@@ -143,14 +143,35 @@ Cypress.Commands.add("addProductToCartById", (productId, ammount) => {
     }
 });
 
-Cypress.Commands.add('buyProductfromPLP', (firstName, lastName, cardNumber) => {
+Cypress.Commands.add('verifyTotalPrice', () => {
     cy.get('button').contains('Go to shopping cart').click();
-    cy.get('button').contains('Go to Checkout').click();
+    cy.get('button').contains('Show total price').click();
+    cy.get('.css-1g7ucpo').within(() => {
+        cy.get('#price').invoke('text').as('totalPrice')
+        
+    })
+});
+
+Cypress.Commands.add('buyProductfromPLP', (firstName, lastName, cardNumber) => {
+    cy.get('[data-cy="goCheckout"]').click();
     cy.get('[data-cy="firstName"]').type(firstName);
     cy.get('[data-cy="lastName"]').type(lastName);
     cy.get('[data-cy="cardNumber"]').type(cardNumber);
     cy.get('[data-cy="purchase"]').click();
     cy.get('[data-cy="thankYou"]').click();
+});
+
+Cypress.Commands.add('validateCart', (product, line) => {
+    cy.get('.css-5drwi8').within(() => {
+        let index = 0;
+        Cypress._.forEach(product, (key) => {            
+            cy.get('li').eq(line).within(() => {
+                cy.get('p').eq(index).should('include.text', key)
+                index++
+            })            
+        })
+    })
+
 });
 
 Cypress.Commands.add('validatePurchase', (product) => {
@@ -169,3 +190,15 @@ Cypress.Commands.add('validatePurchase', (product) => {
         )
     })
 })
+
+Cypress.Commands.add('verifyBillingSummary', (summary) => {
+    cy.get('[data-cy="goBillingSummary"]').click();
+    let index = 0;
+    Cypress._.forEach(summary, (key, atributo) => {
+        cy.get('.css-5drwi8').eq(index).within(() => {
+            cy.get(`[data-cy="${atributo}"]`).should('include.text', key)
+        })
+        index++;
+    })
+    
+});

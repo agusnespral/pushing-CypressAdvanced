@@ -5,7 +5,7 @@ module.exports = defineConfig({
   projectId: "guirjp",
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+     // implement node event listeners here
     
     on("task", {
       async connectDB(query){
@@ -27,6 +27,7 @@ module.exports = defineConfig({
   
   fixturesFolder: "cypress/e2e/",
   defaultCommandTimeout: 5000,
+  
   env: {
     apiUrl: "https://pushing-it.onrender.com",
     baseUrl: "https://pushing-it.vercel.app",

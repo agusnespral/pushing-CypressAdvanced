@@ -1,0 +1,15 @@
+{
+    "productName1": "camisa",
+    "productId1": "21211",
+    "productImg1": "https://d368r8jqz0fwvm.cloudfront.net/34685-product_lg/camisa-de-hombre-raven-ml.jpg",
+    "productPrice1": "200",
+    "quantity1": 2,
+    "productName2": "short",
+    "productId2": "21212",
+    "productImg2": "https://d368r8jqz0fwvm.cloudfront.net/26289-product_lg/short-de-mujer-simone.jpg",
+    "productPrice2": "500",
+    "quantity2": 4,
+    "firstName": "Agus",
+    "lastName": "Nes",
+    "cardNumber": "4242424242424242"
+}

@@ -34,7 +34,7 @@ describe(`${scenarioName} - ${module} `, () => {
             {
                 'name': 'nombre apellido',
                 'Buzo negro': '1 x Buzo Negro',
-                'creditCard': '1234512345123451',
+                'creditCard': '1234512345123451 ',
                 'totalPrice': '23.76'
             }
             ) 
