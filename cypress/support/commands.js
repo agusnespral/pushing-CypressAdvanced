@@ -36,8 +36,6 @@ Cypress.Commands.add("login", (username, password) => {
         window.localStorage.setItem("token", response.body.token);
         window.localStorage.setItem("username", response.body.user.username);
         window.localStorage.setItem("password", response.body.user.password);
-
-        //Cypress.env('token', response.body.token) -- ambas formas sirven
         Cypress.env().token = response.body.token
     });
 
@@ -50,7 +48,6 @@ Cypress.Commands.add("getAndDeleteProductById", (productId) => {
         headers: {
             'Authorization': `Bearer ${Cypress.env().token}`
         }
-        //el each hace que itere pero si no existe no pasa nada, no itera y listo. te evita usar un if
     }).its('body.products.docs').each(productResponse => {
         cy.request({
             method: 'DELETE',
@@ -85,7 +82,7 @@ Cypress.Commands.add('deleteProductById', function () {
     });
 });
 
-Cypress.Commands.add('createProduct', function (name, price, img, id) {   //parametrizar
+Cypress.Commands.add('createProduct', function (name, price, img, id) {
     cy.request({
         method: 'POST',
         url: `${Cypress.env().apiUrl}/api/create-product`,
@@ -107,15 +104,6 @@ Cypress.Commands.add('editProduct', function (name, price, img) {
     }).as('responseEditProduct')
 });
 
-// Cypress.Commands.add('createProduct', (productName, productPrice, productCard, productID) => {
-//     cy.getByDataCy("add-product").click();
-//     cy.getByDataCy("productName").type(productName);
-//     cy.getByDataCy("productPrice").type(productPrice);
-//     cy.getByDataCy("productCard").type(productCard);
-//     cy.getByDataCy("productID").type(productID);
-//     cy.getByDataCy("createProduct").click();
-// });
-
 Cypress.Commands.add('clickOnlineShop', () => {
     cy.getByDataCy("onlineshoplink").click();
 });
@@ -125,7 +113,6 @@ Cypress.Commands.add("getByDataCy", (dataCy) => {
 });
 
 Cypress.Commands.add('searchProductById', function () {
-    //cy.getByDataCy('onlineshoplink').click()
     cy.get('@responseCreateProduct').then(response => {
         cy.getByDataCy('search-type').select(1)
         cy.getByDataCy('search-bar').type(`${response.body.product.id}{enter}`)
@@ -135,7 +122,7 @@ Cypress.Commands.add('searchProductById', function () {
 
 Cypress.Commands.add("addProductToCartById", (productId, ammount) => {
 
-    cy.contains("ID").parent().select(1); //no es el mejor, solo probando selectores
+    cy.contains("ID").parent().select(1);
     cy.get('#search-bar').clear().type(productId).type('{enter}');
     for (let i = 0; i < ammount; i++) {
         cy.get(`[data-cy="add-to-cart-${productId}"]`).click();
@@ -148,7 +135,6 @@ Cypress.Commands.add('verifyTotalPrice', () => {
     cy.get('button').contains('Show total price').click();
     cy.get('.css-1g7ucpo').within(() => {
         cy.get('#price').invoke('text').as('totalPrice')
-        
     })
 });
 
@@ -164,30 +150,26 @@ Cypress.Commands.add('buyProductfromPLP', (firstName, lastName, cardNumber) => {
 Cypress.Commands.add('validateCart', (product, line) => {
     cy.get('.css-5drwi8').within(() => {
         let index = 0;
-        Cypress._.forEach(product, (key) => {            
+        Cypress._.forEach(product, (key) => {
             cy.get('li').eq(line).within(() => {
                 cy.get('p').eq(index).should('include.text', key)
                 index++
-            })            
+            })
         })
     })
-
 });
 
 Cypress.Commands.add('validatePurchase', (product) => {
     cy.get('.css-ud2986').within(() => {
-
         let index = 0;
         Cypress._.forEach(product, (value) => {
             if (index == 3) {
                 index++
             } else {
-
-            cy.get('p').eq(index).should('include.text', value)
-            index++
-        }
-        }
-        )
+                cy.get('p').eq(index).should('include.text', value)
+                index++
+            }
+        })
     })
 })
 
@@ -200,5 +182,4 @@ Cypress.Commands.add('verifyBillingSummary', (summary) => {
         })
         index++;
     })
-    
 });
